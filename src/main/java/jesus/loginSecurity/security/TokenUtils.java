@@ -11,9 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import jesus.loginSecurity.services.impl.UserDetailsServiceImpl;
 
 public class TokenUtils {
@@ -26,7 +28,7 @@ public class TokenUtils {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
-    public static String createToken(int userId,String username, String role) {
+    public static String createToken(int userId, String username, String role) {
         long expirationTime = TOKEN_EXPIRATION_SECONDS * 1000;
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
 
@@ -70,7 +72,25 @@ public class TokenUtils {
 
     }
 
-    public static int getUserIdFromToken(String token){
-        return 0;
+    public static int getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(SECRET_KEY.getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        int id = claims.get("id", Integer.class);
+        return id;
+    }
+
+    public static String extractTokenFromRequest(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7); // Extraer el token
+            return token; 
+        } else {
+            return null; 
+        }
     }
 }
