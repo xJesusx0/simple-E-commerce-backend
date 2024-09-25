@@ -29,4 +29,20 @@ public class Product {
     
     @Column(nullable = false)
     private int ammount;
+
+    public boolean validProduct(){
+        if(this.name == null || this.name.isBlank() || this.name.isEmpty()){
+            return false;
+        }
+
+        if(this.ammount < 0 ){
+            return false;
+        }
+
+        if(this.price <= 0){
+          return false;
+        }
+
+        return true;
+    }
 }
