@@ -28,14 +28,14 @@ public class Product {
     private double price;
     
     @Column(nullable = false)
-    private int ammount;
+    private int amount;
 
     public boolean validProduct(){
         if(this.name == null || this.name.isBlank() || this.name.isEmpty()){
             return false;
         }
 
-        if(this.ammount < 0 ){
+        if(this.amount < 0 ){
             return false;
         }
 

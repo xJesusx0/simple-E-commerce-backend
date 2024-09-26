@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
+@PreAuthorize("hasAuthority('admin')")
 public class AdminController {
 
     @GetMapping("/home")
-    @PreAuthorize("hasAuthority('admin')")
-    public String adminHome(){
+    public String adminHome() {
         return "admin";
     }
 }
