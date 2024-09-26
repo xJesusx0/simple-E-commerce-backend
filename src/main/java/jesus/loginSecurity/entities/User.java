@@ -1,7 +1,6 @@
 package jesus.loginSecurity.entities;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,8 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    // @Autowired
+    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,5 +41,6 @@ public class User {
 
     public void encryptPassword(){
         this.password = passwordEncoder.encode(this.password); 
+        System.out.println("#########");
     }
 }
