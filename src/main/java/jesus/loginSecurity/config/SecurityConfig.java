@@ -48,6 +48,7 @@ public class SecurityConfig {
                             config.setAllowedHeaders(Arrays.asList(allowedHeaders));
                             config.setAllowedMethods(Arrays.asList(allowedMethods));
                             config.setAllowedOrigins(Arrays.asList(allowedOrigins));
+                            config.addExposedHeader("Authorization");
                             return config;
                         }))
                 .csrf(CsrfConfigurer::disable)
